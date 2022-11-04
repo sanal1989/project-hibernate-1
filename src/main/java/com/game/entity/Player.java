@@ -1,6 +1,8 @@
 package com.game.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 
 import java.util.Date;
@@ -10,7 +12,16 @@ import java.util.Date;
 public class Player {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO )
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "sequence-generator")
+    @GenericGenerator(
+            name = "sequence-generator",
+            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
+            parameters = {
+                    @Parameter(name = "sequence_name", value = "user_sequence"),
+                    @Parameter(name = "initial_value", value = "42"),
+                    @Parameter(name = "increment_size", value = "1")
+            }
+    )
     @Column(name = "id", nullable=false)
     private Long id;
 
